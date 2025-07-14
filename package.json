@@ -1,0 +1,35 @@
+{
+  "name": "talk-talk",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon --env-file=.env index.js",
+    "debug": "node --inspect index.js"
+  },
+  "type": "commonjs",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^3.1.7"
+  },
+  "dependencies": {
+    "axios": "^1.7.9",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
+    "mysql": "^2.18.1",
+    "nodemailer": "^6.10.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Umashankar1234/talk-talk.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Umashankar1234/talk-talk/issues"
+  },
+  "homepage": "https://github.com/Umashankar1234/talk-talk#readme",
+  "description": ""
+}
