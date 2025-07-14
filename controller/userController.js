@@ -414,7 +414,13 @@ const saveOrder = async (req, res) => {
       });
     }
 
-    const saveOrderSql = `INSERT INTO tbl_orders (order_id,access_casr,customer_name,product_type,provider,provisioning_command,status,order_date,expected_completion_date,updated_at,supplier_service_id, productr, partner_order_reference, broadband_username) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)`;
+    const saveOrderSql = `
+      INSERT INTO tbl_orders (
+        order_id,access_casr,customer_name,product_type,provider,
+        provisioning_command,status,order_date,expected_completion_date,
+        updated_at,supplier_service_id, productr, partner_order_reference, broadband_username
+      ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+    `;
 
     db.query(
       saveOrderSql,
@@ -545,6 +551,10 @@ const updateOrderStatus = async (req, res) => {
           const characteristics =
             liveRes?.data?.productOrderItem?.[0]?.product
               ?.productCharacteristic;
+
+          const productItem = liveRes?.data?.productOrderItem?.[0]?.product;
+          const product_id = productItem?.id;
+
           const access_casr = characteristics?.find(
             (c) => c.name === "accessCASR"
           )?.value;
@@ -568,7 +578,8 @@ const updateOrderStatus = async (req, res) => {
             updated_at = NOW(),
             partner_order_reference = ?,
             broadband_username = ?,
-            supplier_service_id = ?
+            supplier_service_id = ?,
+            product_id = ?
             WHERE order_id = ?`;
             db.query(
               updateSql,
@@ -578,6 +589,7 @@ const updateOrderStatus = async (req, res) => {
                 partner_order_reference,
                 broadband_username,
                 supplier_service_id,
+                product_id,
                 order.order_id,
               ],
               (updateErr) => {
@@ -591,9 +603,10 @@ const updateOrderStatus = async (req, res) => {
             );
 
             updatedOrders.push({
-              order_id: order.order_id,
-              old_status: order.status,
-              new_status: liveStatus,
+              order_id : order.order_id,
+              old_status : order.status,
+              new_status : liveStatus,
+              product_id : product_id,
             });
           }
         } catch (apiErr) {
