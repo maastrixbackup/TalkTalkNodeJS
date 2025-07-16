@@ -2633,4 +2633,91 @@ const createOrder = async (req, res, next) => {
     next(error);
   }
 };
-module.exports = { createOrder, pingServer };
+
+const suspendFull = async (req, res, next) => {
+  const token = req.accessToken;
+  try {
+    const { productId, customerAKJ } = req.body;
+
+    const body = {
+      note: [
+        {
+          author: "Partner Requested",
+          text: "This is a TMF product order illustration",
+        },
+      ],
+      productOrderItem: [
+        {
+          action: "modify",
+          product: {
+            id: productId,
+            status: "suspended",
+            productCharacteristic: [
+              {
+                name: "suspensionLevel",
+                value: "full",
+              },
+              {
+                name: "partnerOrderReference",
+                value: customerAKJ,
+              },
+            ],
+          },
+        },
+      ],
+    };
+
+    const url = "product-order/v2/api/productOrder";
+
+    const response = await postData(url, JSON.stringify(body), null, token);
+
+    return res.json({
+      status: true,
+      message: "Suspended successfully",
+      data: response,
+    });
+  } catch (error) {
+    console.error("Error in suspend:", error);
+    next(error);
+  }
+};
+
+const unsuspendProduct = async (req, res, next) => {
+  const token = req.accessToken;
+  try {
+    const { productId } = req.body;
+
+    const body = {
+      note: [
+        {
+          author: "Partner Requested",
+          text: "This is a TMF product order illustration",
+        },
+      ],
+      productOrderItem: [
+        {
+          action: "modify",
+          product: {
+            id: productId,
+            status: "active",
+          },
+        },
+      ],
+    };
+
+    const url = "product-order/v2/api/productOrder";
+
+    const response = await postData(url, JSON.stringify(body), null, token);
+
+    return res.json({
+      status: true,
+      message: "Unsuspended successfully",
+      data: response,
+    });
+  } catch (error) {
+    console.error("Error in unsuspend product:", error);
+    next(error);
+  }
+};
+
+module.exports = { createOrder, pingServer, suspendFull, unsuspendProduct };
