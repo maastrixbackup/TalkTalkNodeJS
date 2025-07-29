@@ -2655,11 +2655,15 @@ const suspendFull = async (req, res, next) => {
             productCharacteristic: [
               {
                 name: "suspensionLevel",
-                value: "full",
+                value: "partial",
               },
               {
                 name: "partnerOrderReference",
                 value: customerAKJ,
+              },
+              {
+                name: "dataDivertProfileId",
+                value: "2254",
               },
             ],
           },
@@ -2700,6 +2704,12 @@ const unsuspendProduct = async (req, res, next) => {
           product: {
             id: productId,
             status: "active",
+            productCharacteristic: [
+              {
+                name: "dataDivertProfileId",
+                value: "2254",
+              },
+            ],
           },
         },
       ],
