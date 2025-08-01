@@ -170,7 +170,7 @@ const createOrder = async (req, res, next) => {
                 },
                 {
                   name: "installationType",
-                  value: "Managed Standard",
+                  value: "Self Install",
                   valueType: "string",
                 },
               ],
@@ -248,7 +248,7 @@ const createOrder = async (req, res, next) => {
                 },
                 {
                   name: "installationType",
-                  value: "Managed Standard",
+                  value: "Self Install",
                   valueType: "string",
                 },
                 {
@@ -370,7 +370,7 @@ const createOrder = async (req, res, next) => {
                 },
                 {
                   name: "installationType",
-                  value: "Managed Standard",
+                  value: "Self Install",
                   valueType: "string",
                 },
                 {
@@ -779,7 +779,7 @@ const createOrder = async (req, res, next) => {
                 },
                 {
                   name: "installationType",
-                  value: "Managed Standard",
+                  value: "Self Install",
                   valueType: "string",
                 },
                 {
@@ -1639,7 +1639,7 @@ const createOrder = async (req, res, next) => {
                 },
                 {
                   name: "installationType",
-                  value: "Managed Standard",
+                  value: "Self Install",
                   valueType: "string",
                 },
                 {
@@ -1769,7 +1769,7 @@ const createOrder = async (req, res, next) => {
                 },
                 {
                   name: "installationType",
-                  value: "Managed Standard",
+                  value: "Self Install",
                   valueType: "string",
                 },
                 {
@@ -2131,7 +2131,7 @@ const createOrder = async (req, res, next) => {
                 },
                 {
                   name: "installationType",
-                  value: "Managed Standard",
+                  value: "Self Install",
                   valueType: "string",
                 },
                 {
@@ -2397,7 +2397,7 @@ const createOrder = async (req, res, next) => {
                 },
                 {
                   name: "installationType",
-                  value: "Managed Standard",
+                  value: "Self Install",
                   valueType: "string",
                 },
                 {
@@ -2536,7 +2536,7 @@ const createOrder = async (req, res, next) => {
                 },
                 {
                   name: "installationType",
-                  value: "Managed Standard",
+                  value: "Self Install",
                   valueType: "string",
                 },
                 {
