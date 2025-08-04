@@ -170,7 +170,7 @@ const createOrder = async (req, res, next) => {
                 },
                 {
                   name: "installationType",
-                  value: "Self Install",
+                  value: "Managed Standard",
                   valueType: "string",
                 },
               ],
@@ -248,7 +248,7 @@ const createOrder = async (req, res, next) => {
                 },
                 {
                   name: "installationType",
-                  value: "Self Install",
+                  value: "Managed Standard",
                   valueType: "string",
                 },
                 {
@@ -370,7 +370,7 @@ const createOrder = async (req, res, next) => {
                 },
                 {
                   name: "installationType",
-                  value: "Self Install",
+                  value: "Managed Standard",
                   valueType: "string",
                 },
                 {
@@ -779,7 +779,7 @@ const createOrder = async (req, res, next) => {
                 },
                 {
                   name: "installationType",
-                  value: "Self Install",
+                  value: "Managed Standard",
                   valueType: "string",
                 },
                 {
@@ -1639,7 +1639,7 @@ const createOrder = async (req, res, next) => {
                 },
                 {
                   name: "installationType",
-                  value: "Self Install",
+                  value: "Managed Standard",
                   valueType: "string",
                 },
                 {
@@ -1726,9 +1726,9 @@ const createOrder = async (req, res, next) => {
         productOrderItem: [
           {
             action: "add",
-            appointment: {
-              id: appointmentId || "",
-            },
+            // appointment: {
+            //   id: appointmentId || "",
+            // },
             product: {
               name: "C-OR-SOGEA",
               place: [
@@ -2095,9 +2095,9 @@ const createOrder = async (req, res, next) => {
         productOrderItem: [
           {
             action: "add",
-            appointment: {
-              id: appointmentId || "",
-            },
+            // appointment: {
+            //   id: appointmentId || "",
+            // },
             product: {
               name: "C-OR-FTTP",
               place: [
@@ -2397,7 +2397,7 @@ const createOrder = async (req, res, next) => {
                 },
                 {
                   name: "installationType",
-                  value: "Self Install",
+                  value: "Managed Standard",
                   valueType: "string",
                 },
                 {
@@ -2536,7 +2536,7 @@ const createOrder = async (req, res, next) => {
                 },
                 {
                   name: "installationType",
-                  value: "Self Install",
+                  value: "Managed Standard",
                   valueType: "string",
                 },
                 {
