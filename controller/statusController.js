@@ -7,24 +7,30 @@ const {
 
 const statusChecker = async (req, res, next) => {
   const token = req.accessToken;
-
+ 
   try {
     const { orderId } = req.params;
-
+ 
     if (!orderId) {
       return res.status(400).json({
         status: false,
         message: "Order ID is required",
       });
     }
-
+ 
     const url = `product-order/v2/api/productOrder/${orderId}`;
     const response = await getData(url, {}, token);
-
+ 
+    const product_type =
+      response?.productOrderItem?.[0]?.product?.productCharacteristic?.find(
+        (item) => item.name === "accessCircuit"
+      )?.value;
+ 
     res.json({
       status: true,
       data: response,
       url,
+      product_type,
     });
   } catch (error) {
     console.error("Error in getOrderStatus:", error);
@@ -32,6 +38,60 @@ const statusChecker = async (req, res, next) => {
   }
 };
 
+const regradeProductSpeed = async (req, res, next) => {
+  const token = req.accessToken;
+ 
+  try {
+    const { productId, newSpeed } = req.body;
+ 
+    if (!productId || !newSpeed) {
+      return res.status(400).json({
+        status: false,
+        message: "productId and newSpeed are required",
+      });
+    }
+ 
+    const regradePayload = {
+      note: [
+        {
+          author: "Partner Requested",
+          text: "This is a TMF product order illustration",
+        },
+      ],
+      productOrderItem: [
+        {
+          action: "modify",
+          product: {
+            id: productId,
+            productCharacteristic: [
+              {
+                name: "productSpeed",
+                value: newSpeed,
+              },
+            ],
+          },
+        },
+      ],
+    };
+ 
+    const regradeUrl = `product-order/v2/api/productOrder`;
+    const regradeResponse = await postData(
+      regradeUrl,
+      regradePayload,
+      null,
+      token
+    );
+ 
+    return res.json({
+      status: true,
+      message: `Regrade to ${newSpeed} successful`,
+      data: regradeResponse,
+    });
+  } catch (error) {
+    console.error("Error in regradeProductSpeed:", error);
+    next(error);
+  }
+};
 const cancelOrder = async (req, res, next) => {
   const token = req.accessToken;
 
@@ -469,4 +529,5 @@ module.exports = {
   editOrder,
   editAppointment,
   ceaseOrder,
+  regradeProductSpeed,
 };

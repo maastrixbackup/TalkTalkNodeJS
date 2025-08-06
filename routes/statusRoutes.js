@@ -11,4 +11,5 @@ router.patch("/editAppointment/:orderId", statusController.editAppointment);
 router.post("/modifyCareLevel", statusController.modifyCareLevel);
 router.post("/modifyIP", statusController.modifyIP);
 router.post("/ceaseOrder",statusController.ceaseOrder);
+router.post("/regradeProductSpeed",statusController.regradeProductSpeed);
 module.exports = router;
