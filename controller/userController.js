@@ -529,7 +529,7 @@ const updateOrderStatus = async (req, res) => {
       "Content-Type": "application/json",
     };
 
-    const fetchAllOrdersSql = `SELECT id, access_casr, order_id, status FROM tbl_orders where status != "cancelled" and status != "rejected" and status != "failed" and status !="completed"`;
+   const fetchAllOrdersSql = `SELECT id, access_casr, order_id, status FROM tbl_orders where status != "cancelled" and status != "rejected" and status != "failed" and status !="completed" LIMIT 250`;
     db.query(fetchAllOrdersSql, async (err, orders) => {
       if (err) {
         console.error("Error fetching local orders:", err);
