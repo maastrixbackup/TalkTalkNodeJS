@@ -211,19 +211,41 @@ const ceaseOrder = async (req, res, next) => {
 };
 
 const getLogs = async (req, res, next) => {
-  try{
-    const [rows] = await db.promise().query("SELECT * FROM logs ORDER BY created_at DESC");
+  try {
+    // defaults: page=1, limit=10
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const offset = (page - 1) * limit;
+
+    // fetch logs with limit/offset
+    const [rows] = await db.promise().query(
+      "SELECT * FROM logs ORDER BY created_at DESC LIMIT ? OFFSET ?",
+      [limit, offset]
+    );
+
+    // get total count
+    const [countResult] = await db.promise().query(
+      "SELECT COUNT(*) as total FROM logs"
+    );
+    const total = countResult[0].total;
+    const totalPages = Math.ceil(total / limit);
 
     res.json({
-      status : true,
-      message : "Logs fetched successfully",
-      data : rows,
+      status: true,
+      message: "Logs fetched successfully",
+      data: rows,
+      pagination: {
+        total,
+        page,
+        limit,
+        totalPages,
+      },
     });
   } catch (error) {
     console.error("Error fetching logs:", error);
     next(error);
   }
-}
+};
 
 const getCpwn = async (req, res, next) => {
   const token = req.accessToken;
