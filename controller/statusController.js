@@ -4,6 +4,8 @@ const {
   postData,
   patchData,
 } = require("../utils/networkRequests");
+var db = require("../utils/dbconnection.js");
+const { logOrderAction } = require("../services/logOrderAction");
 
 const statusChecker = async (req, res, next) => {
   const token = req.accessToken;
@@ -139,15 +141,15 @@ const cancelOrder = async (req, res, next) => {
 
 const ceaseOrder = async (req, res, next) => {
   const token = req.accessToken;
+  const {
+    orderId,
+    requestedCompletionDate,
+    productId,
+    partnerOrderReference,
+    reasonForCease,
+    requestedBy = null,
+  } = req.body;
   try {
-    const {
-      orderId,
-      requestedCompletionDate,
-      productId,
-      partnerOrderReference,
-      reasonForCease,
-    } = req.body;
-
     const url = "product-order/v2/api/productOrder";
 
     const payload = {
@@ -179,6 +181,15 @@ const ceaseOrder = async (req, res, next) => {
     };
 
     const response = await postData(url, payload, null, token);
+    // Log success
+    await logOrderAction({
+      productId: productId,
+      action: "Cease",
+      requestedBy,
+      requestPayload: payload,
+      responsePayload: response,
+      status: "success",
+    });
     return res.json({
       status: true,
       message: "Cease order submitted successfully",
@@ -186,9 +197,33 @@ const ceaseOrder = async (req, res, next) => {
     });
   } catch (error) {
     console.error("Error in ceaseOrder:", error);
+    // Log error
+    await logOrderAction({
+      productId: productId,
+      action: "Cease",
+      requestedBy,
+      requestPayload: req.body,
+      status: "error",
+      errorMessage: error.message,
+    });
     next(error);
   }
 };
+
+const getLogs = async (req, res, next) => {
+  try{
+    const [rows] = await db.promise().query("SELECT * FROM logs ORDER BY created_at DESC");
+
+    res.json({
+      status : true,
+      message : "Logs fetched successfully",
+      data : rows,
+    });
+  } catch (error) {
+    console.error("Error fetching logs:", error);
+    next(error);
+  }
+}
 
 const getCpwn = async (req, res, next) => {
   const token = req.accessToken;
@@ -530,4 +565,5 @@ module.exports = {
   editAppointment,
   ceaseOrder,
   regradeProductSpeed,
+  getLogs,
 };

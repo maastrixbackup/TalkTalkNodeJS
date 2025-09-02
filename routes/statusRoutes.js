@@ -12,4 +12,5 @@ router.post("/modifyCareLevel", statusController.modifyCareLevel);
 router.post("/modifyIP", statusController.modifyIP);
 router.post("/ceaseOrder",statusController.ceaseOrder);
 router.post("/regradeProductSpeed",statusController.regradeProductSpeed);
+router.get("/logs",statusController.getLogs);
 module.exports = router;

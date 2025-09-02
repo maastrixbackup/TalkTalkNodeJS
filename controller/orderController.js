@@ -1,4 +1,6 @@
 const { getData, postData } = require("../utils/networkRequests");
+const { logOrderAction } = require("../services/logOrderAction");
+
 const pingServer = async (req, res, next) => {
   const token = req.accessToken;
   try {
@@ -2636,9 +2638,8 @@ const createOrder = async (req, res, next) => {
 
 const suspendFull = async (req, res, next) => {
   const token = req.accessToken;
+  const { productId, customerAKJ, requestedBy = null } = req.body;
   try {
-    const { productId, customerAKJ } = req.body;
-
     const body = {
       note: [
         {
@@ -2675,12 +2676,32 @@ const suspendFull = async (req, res, next) => {
 
     const response = await postData(url, JSON.stringify(body), null, token);
 
+    //Log successful action
+    await logOrderAction({
+      productId : productId,
+      action : "Suspend",
+      requestedBy,
+      requestPayload : body,
+      responsePayload : response,
+      status : "success"
+    });
+
     return res.json({
       status: true,
       message: "Suspended successfully",
       data: response,
     });
   } catch (error) {
+    //Log error case
+    await logOrderAction({
+      productId: productId,
+      action: "Suspend",
+      requestedBy,
+      requestPayload: req.body,
+      status: "error",
+      errorMessage: error.message,
+    });
+
     console.error("Error in suspend:", error);
     next(error);
   }
@@ -2688,9 +2709,8 @@ const suspendFull = async (req, res, next) => {
 
 const unsuspendProduct = async (req, res, next) => {
   const token = req.accessToken;
+  const { productId, requestedBy = null } = req.body;
   try {
-    const { productId } = req.body;
-
     const body = {
       note: [
         {
@@ -2718,6 +2738,15 @@ const unsuspendProduct = async (req, res, next) => {
     const url = "product-order/v2/api/productOrder";
 
     const response = await postData(url, JSON.stringify(body), null, token);
+    // Log successful action
+    await logOrderAction({
+      productId: productId,
+      action: "Unsuspend",
+      requestedBy,
+      requestPayload: body,
+      responsePayload: response,
+      status: "success",
+    });
 
     return res.json({
       status: true,
@@ -2726,6 +2755,16 @@ const unsuspendProduct = async (req, res, next) => {
     });
   } catch (error) {
     console.error("Error in unsuspend product:", error);
+    //Log error case
+    await logOrderAction({
+      productId: productId,
+      action: "Unsuspend",
+      requestedBy,
+      requestPayload: req.body,
+      status: "error",
+      errorMessage: error.message,
+    });
+
     next(error);
   }
 };
