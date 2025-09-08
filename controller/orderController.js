@@ -191,44 +191,60 @@ const createOrder = async (req, res, next) => {
       };
     else if (action == "OR-FTTP-NEWLINE") {
       body = {
-        requestedCompletionDate: req.body.requestedCompletionDate,
+        requestedCompletionDate: "2025-10-30T00:00:00.000Z",
         billingAccount: {
-          id: billingAccountId,
+          id: "00013892",
           "@type": "BillingAccount",
         },
-        // note: [
-        //   {
-        //     author: "HazardNotes",
-        //     text: author1,
-        //   },
-        //   {
-        //     author: "HazardNotes",
-        //     text: author2,
-        //   },
-        //   {
-        //     author: "EngineerVisitNotes",
-        //     text: author3,
-        //   },
-        // ],
+        note: [
+          {
+            author: "HazardNotes",
+            text: "This is a TMF product order illustration",
+            "@type": "Note",
+          },
+          {
+            author: "HazardNotes",
+            text: "dangerous dog onsite",
+            "@type": "Note",
+          },
+          {
+            author: "EngineerVisitNotes",
+            text: "No plug on the 3rd floor",
+            "@type": "Note",
+          },
+        ],
         productOrderItem: [
           {
             action: "add",
-            appointment: {
-              id: appointmentId || "",
-            },
+            "@type": "productOrderItem",
+            id: "1",
+            // appointment: {
+            //   id: "405412",
+            //   "@type": "appointment",
+            // },
             product: {
               name: "C-OR-FTTP",
+              "@type": "product",
               place: [
                 {
-                  role: "consumer",
-                  galk: galk || "",
-                  districtCode: districtCode || "",
-                  locality: locality || "",
-                  postcode: postCode || "",
-                  streetName: streetName || "",
-                  streetNr: streetNr || "",
-                  buildingName: buildingName || "",
-                  subUnitNumber: subUnitNumber || "",
+                  role: "installationAddress",
+                  "@type": "place",
+                  place: {
+                    "@type": "PXCGeographicSubAddressUnit",
+                    postcode: "LA9 4PU",
+                    externalId: [
+                      {
+                        "@type": "ExternalIdentifier",
+                        externalIdentifierType: "galk",
+                        id: "A00004288159",
+                      },
+                      {
+                        "@type": "ExternalIdentifier",
+                        externalIdentifierType: "districtCode",
+                        id: "LC",
+                      },
+                    ],
+                  },
                 },
               ],
               productCharacteristic: [
@@ -236,82 +252,91 @@ const createOrder = async (req, res, next) => {
                   name: "provisioningCommand",
                   value: "ProvideNew",
                   valueType: "string",
+                  "@type": "StringCharacteristic",
+                },
+                {
+                  name: "requestedONTType",
+                  value: "Restrict swap",
+                  valueType: "string",
+                  "@type": "StringCharacteristic",
                 },
                 {
                   name: "productSpeed",
-                  // value: productSpeed,
-                  value: productSpeed,
+                  value: "80/20",
                   valueType: "string",
+                  "@type": "StringCharacteristic",
                 },
                 {
                   name: "careLevel",
                   value: "Standard",
                   valueType: "string",
+                  "@type": "StringCharacteristic",
                 },
                 {
                   name: "installationType",
-                  value: "Managed Standard",
+                  value: "Self Install",
                   valueType: "string",
+                  "@type": "StringCharacteristic",
                 },
                 {
                   name: "installationContactNamePrimary",
-                  value: customerPrimaryName,
+                  value: "Subhajeet",
                   valueType: "string",
+                  "@type": "StringCharacteristic",
                 },
                 {
                   name: "installationContactNumberPrimary",
-                  value: customerPrimaryNumber,
+                  value: "09876544332",
                   valueType: "string",
+                  "@type": "StringCharacteristic",
                 },
-                ...(customerSecondaryName?.trim()
-                  ? [
-                      {
-                        name: "installationContactNameSecondary",
-                        value: customerSecondaryName.trim(),
-                        valueType: "string",
-                      },
-                    ]
-                  : []),
-
-                // Conditionally include secondary number
-                ...(customerSecondaryNumber?.trim()
-                  ? [
-                      {
-                        name: "installationContactNumberSecondary",
-                        value: customerSecondaryNumber.trim(),
-                        valueType: "string",
-                      },
-                    ]
-                  : []),
+                {
+                  name: "installationContactNameSecondary",
+                  value: "Pravat",
+                  valueType: "string",
+                  "@type": "StringCharacteristic",
+                },
+                {
+                  name: "installationContactNumberSecondary",
+                  value: "09876574232",
+                  valueType: "string",
+                  "@type": "StringCharacteristic",
+                },
                 {
                   name: "installationContactEmail",
-                  value: customerEmail,
+                  value: "abc@gmail.com",
                   valueType: "string",
+                  "@type": "StringCharacteristic",
                 },
                 {
                   name: "partnerOrderReference",
-                  value: customerAKJ,
+                  value: "Layered testing",
                   valueType: "string",
+                  "@type": "StringCharacteristic",
                 },
                 {
                   name: "ipBlockSize",
-                  value: ipBlockSize,
+                  value: "Static Ip-4",
                   valueType: "string",
+                  "@type": "StringCharacteristic",
                 },
                 {
                   name: "domainName",
-                  value: "poptelecom.net",
+                  value: "abclub.net",
                   valueType: "string",
+                  "@type": "StringCharacteristic",
                 },
                 {
                   name: "retailerId",
-                  value: "FFA",
+                  value: "CCF",
                   valueType: "string",
+                  "@type": "StringCharacteristic",
                 },
               ],
             },
           },
         ],
+        "@type": "ProductOrder",
       };
     } else if (action == "OR-SOGEA-NEWLINE")
       body = {
@@ -2621,7 +2646,7 @@ const createOrder = async (req, res, next) => {
         .json({ status: false, message: "Invalid action type" });
     }
 
-    const url = "product-order/v2/api/productOrder";
+    const url = "product-order/v3/api/productOrder";
     const response = await postData(url, JSON.stringify(body), null, token);
 
     res.json({
@@ -2678,12 +2703,12 @@ const suspendFull = async (req, res, next) => {
 
     //Log successful action
     await logOrderAction({
-      productId : productId,
-      action : "Suspend",
+      productId: productId,
+      action: "Suspend",
       requestedBy,
-      requestPayload : body,
-      responsePayload : response,
-      status : "success"
+      requestPayload: body,
+      responsePayload: response,
+      status: "success",
     });
 
     return res.json({
