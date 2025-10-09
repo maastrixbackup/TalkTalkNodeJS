@@ -169,7 +169,7 @@ const createOrder = async (req, res, next) => {
                 },
                 {
                   name: "domainName",
-                  value: "abclub.net",
+                  value: "poptelecom.net",
                   valueType: "string",
                   "@type": "StringCharacteristic",
                 },
@@ -427,7 +427,7 @@ const createOrder = async (req, res, next) => {
                 },
                 {
                   name: "accessLineId",
-                  value: "ZZX2220360N2",
+                  value: accessLineId,
                   valueType: "string",
                   "@type": "StringCharacteristic",
                 },
@@ -489,7 +489,7 @@ const createOrder = async (req, res, next) => {
                 },
                 {
                   name: "domainName",
-                  value: "abclub.net",
+                  value: "poptelecom.net",
                   valueType: "string",
                   "@type": "StringCharacteristic",
                 },
@@ -636,7 +636,7 @@ const createOrder = async (req, res, next) => {
                 },
                 {
                   name: "domainName",
-                  value: "abclub.net",
+                  value: "poptelecom.net",
                   valueType: "string",
                   "@type": "StringCharacteristic",
                 },
@@ -1368,39 +1368,59 @@ const createOrder = async (req, res, next) => {
           id: billingAccountId,
           "@type": "BillingAccount",
         },
-        // note: [
-        //   {
-        //     author: "HazardNotes",
-        //     text: author1,
-        //   },
-        //   {
-        //     author: "HazardNotes",
-        //     text: author2,
-        //   },
-        //   {
-        //     author: "EngineerVisitNotes",
-        //     text: author3,
-        //   },
-        // ],
+        note: [
+          {
+            author: "HazardNotes",
+            text: "This is a TMF product order illustration",
+            "@type": "Note",
+          },
+          {
+            author: "HazardNotes",
+            text: "dangerous dog onsite",
+            "@type": "Note",
+          },
+          {
+            author: "EngineerVisitNotes",
+            text: "No plug on the 3rd floor",
+            "@type": "Note",
+          },
+        ],
         productOrderItem: [
           {
             action: "add",
-            // appointment: {
-            //   id: appointmentId || "",
-            // },
+            id: "1",
+            "@type": "ProductOrderItem",
             product: {
               name: "C-OR-SOGEA",
+              "@type": "Product",
               place: [
                 {
-                  role: "consumer",
-                  galk: galk || "",
-                  districtCode: districtCode || "",
-                  locality: locality || "",
-                  postcode: postCode || "",
-                  streetName: streetName || "",
-                  streetNr: streetNr || "",
-                  buildingName: buildingName || "",
-                  subUnitNumber: subUnitNumber || "",
+                  "@type": "place",
+                  role: "installationAddress",
+                  place: {
+                    postcode: postCode,
+                    "@type": "PXCGeographicSubAddressUnit",
+                    externalId: [
+                      ...(galk
+                        ? [
+                            {
+                              "@type": "ExternalIdentifier",
+                              externalIdentifierType: "galk",
+                              id: galk,
+                            },
+                          ]
+                        : []),
+                      ...(districtCode
+                        ? [
+                            {
+                              "@type": "ExternalIdentifier",
+                              externalIdentifierType: "districtCode",
+                              id: districtCode,
+                            },
+                          ]
+                        : []),
+                    ],
+                  },
                 },
               ],
               productCharacteristic: [
@@ -1408,36 +1428,43 @@ const createOrder = async (req, res, next) => {
                   name: "provisioningCommand",
                   value: "Switch",
                   valueType: "string",
+                  "@type": "StringCharacteristic",
                 },
                 {
                   name: "productSpeed",
                   value: productSpeed,
                   valueType: "string",
+                  "@type": "StringCharacteristic",
                 },
                 {
                   name: "careLevel",
                   value: "Standard",
                   valueType: "string",
+                  "@type": "StringCharacteristic",
                 },
                 {
                   name: "accessLineId",
                   value: accessLineId,
                   valueType: "string",
+                  "@type": "StringCharacteristic",
                 },
                 {
                   name: "installationType",
                   value: "Self Install",
                   valueType: "string",
+                  "@type": "StringCharacteristic",
                 },
                 {
                   name: "installationContactNamePrimary",
                   value: customerPrimaryName,
                   valueType: "string",
+                  "@type": "StringCharacteristic",
                 },
                 {
                   name: "installationContactNumberPrimary",
                   value: customerPrimaryNumber,
                   valueType: "string",
+                  "@type": "StringCharacteristic",
                 },
                 ...(customerSecondaryName?.trim()
                   ? [
@@ -1445,17 +1472,17 @@ const createOrder = async (req, res, next) => {
                         name: "installationContactNameSecondary",
                         value: customerSecondaryName.trim(),
                         valueType: "string",
+                        "@type": "StringCharacteristic",
                       },
                     ]
                   : []),
-
-                // Conditionally include secondary number
                 ...(customerSecondaryNumber?.trim()
                   ? [
                       {
                         name: "installationContactNumberSecondary",
                         value: customerSecondaryNumber.trim(),
                         valueType: "string",
+                        "@type": "StringCharacteristic",
                       },
                     ]
                   : []),
@@ -1463,46 +1490,49 @@ const createOrder = async (req, res, next) => {
                   name: "installationContactEmail",
                   value: customerEmail,
                   valueType: "string",
+                  "@type": "StringCharacteristic",
                 },
                 {
                   name: "partnerOrderReference",
                   value: customerAKJ,
                   valueType: "string",
-                },
-                {
-                  name: "accessLineId",
-                  value: accessLineId,
-                  valueType: "string",
+                  "@type": "StringCharacteristic",
                 },
                 {
                   name: "ipBlockSize",
                   value: ipBlockSize,
                   valueType: "string",
+                  "@type": "StringCharacteristic",
                 },
                 {
                   name: "domainName",
                   value: "poptelecom.net",
                   valueType: "string",
-                },
-                {
-                  name: "numberPortabilityRequired",
-                  value: "No",
-                  valueType: "string",
+                  "@type": "StringCharacteristic",
                 },
                 {
                   name: "retailerId",
                   value: "FFA",
                   valueType: "string",
+                  "@type": "StringCharacteristic",
+                },
+                {
+                  name: "numberPortabilityRequired",
+                  value: "No",
+                  valueType: "string",
+                  "@type": "StringCharacteristic",
                 },
                 {
                   name: "changeOfRetailer",
                   value: "Yes",
                   valueType: "string",
+                  "@type": "StringCharacteristic",
                 },
               ],
             },
           },
         ],
+        "@type": "ProductOrder",
       };
     else if (action == "createProductOrder-SOGEA-Switch-StaticIP")
       body = {
@@ -1511,39 +1541,59 @@ const createOrder = async (req, res, next) => {
           id: billingAccountId,
           "@type": "BillingAccount",
         },
-        // note: [
-        //   {
-        //     author: "HazardNotes",
-        //     text: author1,
-        //   },
-        //   {
-        //     author: "HazardNotes",
-        //     text: author2,
-        //   },
-        //   {
-        //     author: "EngineerVisitNotes",
-        //     text: author3,
-        //   },
-        // ],
+        note: [
+          {
+            author: "HazardNotes",
+            text: "This is a TMF product order illustration",
+            "@type": "Note",
+          },
+          {
+            author: "HazardNotes",
+            text: "dangerous dog onsite",
+            "@type": "Note",
+          },
+          {
+            author: "EngineerVisitNotes",
+            text: "No plug on the 3rd floor",
+            "@type": "Note",
+          },
+        ],
         productOrderItem: [
           {
+            id: "1",
             action: "add",
-            // appointment: {
-            //   id: appointmentId || "",
-            // },
+            "@type": "ProductOrderItem",
             product: {
               name: "C-OR-SOGEA",
+              "@type": "product",
               place: [
                 {
-                  role: "consumer",
-                  galk: galk || "",
-                  districtCode: districtCode || "",
-                  locality: locality || "",
-                  postcode: postCode || "",
-                  streetName: streetName || "",
-                  streetNr: streetNr || "",
-                  buildingName: buildingName || "",
-                  subUnitNumber: subUnitNumber || "",
+                  role: "installationAddress",
+                  "@type": "place",
+                  place: {
+                    postcode: postCode,
+                    "@type": "PXCGeographicSubAddressUnit",
+                    externalId: [
+                      ...(galk
+                        ? [
+                            {
+                              "@type": "ExternalIdentifier",
+                              externalIdentifierType: "galk",
+                              id: galk,
+                            },
+                          ]
+                        : []),
+                      ...(districtCode
+                        ? [
+                            {
+                              "@type": "ExternalIdentifier",
+                              externalIdentifierType: "districtCode",
+                              id: districtCode,
+                            },
+                          ]
+                        : []),
+                    ],
+                  },
                 },
               ],
               productCharacteristic: [
@@ -1551,36 +1601,43 @@ const createOrder = async (req, res, next) => {
                   name: "provisioningCommand",
                   value: "Switch",
                   valueType: "string",
+                  "@type": "StringCharacteristic",
                 },
                 {
                   name: "productSpeed",
                   value: productSpeed,
                   valueType: "string",
+                  "@type": "StringCharacteristic",
                 },
                 {
                   name: "careLevel",
                   value: "Standard",
                   valueType: "string",
+                  "@type": "StringCharacteristic",
                 },
                 {
                   name: "accessLineId",
                   value: accessLineId,
                   valueType: "string",
+                  "@type": "StringCharacteristic",
                 },
                 {
                   name: "installationType",
                   value: "Self Install",
                   valueType: "string",
+                  "@type": "StringCharacteristic",
                 },
                 {
                   name: "installationContactNamePrimary",
                   value: customerPrimaryName,
                   valueType: "string",
+                  "@type": "StringCharacteristic",
                 },
                 {
                   name: "installationContactNumberPrimary",
                   value: customerPrimaryNumber,
                   valueType: "string",
+                  "@type": "StringCharacteristic",
                 },
                 ...(customerSecondaryName?.trim()
                   ? [
@@ -1588,17 +1645,17 @@ const createOrder = async (req, res, next) => {
                         name: "installationContactNameSecondary",
                         value: customerSecondaryName.trim(),
                         valueType: "string",
+                        "@type": "StringCharacteristic",
                       },
                     ]
                   : []),
-
-                // Conditionally include secondary number
                 ...(customerSecondaryNumber?.trim()
                   ? [
                       {
                         name: "installationContactNumberSecondary",
                         value: customerSecondaryNumber.trim(),
                         valueType: "string",
+                        "@type": "StringCharacteristic",
                       },
                     ]
                   : []),
@@ -1606,46 +1663,49 @@ const createOrder = async (req, res, next) => {
                   name: "installationContactEmail",
                   value: customerEmail,
                   valueType: "string",
+                  "@type": "StringCharacteristic",
                 },
                 {
                   name: "partnerOrderReference",
                   value: customerAKJ,
                   valueType: "string",
-                },
-                {
-                  name: "accessLineId",
-                  value: accessLineId,
-                  valueType: "string",
+                  "@type": "StringCharacteristic",
                 },
                 {
                   name: "ipBlockSize",
                   value: ipBlockSize,
                   valueType: "string",
+                  "@type": "StringCharacteristic",
                 },
                 {
                   name: "domainName",
                   value: "poptelecom.net",
                   valueType: "string",
+                  "@type": "StringCharacteristic",
+                },
+                {
+                  name: "retailerId",
+                  value: "CCF",
+                  valueType: "string",
+                  "@type": "StringCharacteristic",
                 },
                 {
                   name: "numberPortabilityRequired",
                   value: "No",
                   valueType: "string",
-                },
-                {
-                  name: "retailerId",
-                  value: "FFA",
-                  valueType: "string",
+                  "@type": "StringCharacteristic",
                 },
                 {
                   name: "changeOfRetailer",
                   value: "Yes",
                   valueType: "string",
+                  "@type": "StringCharacteristic",
                 },
               ],
             },
           },
         ],
+        "@type": "ProductOrder",
       };
     else if (action == "createProductOrder-SOGEA-Switch-INP")
       body = {
@@ -1654,39 +1714,60 @@ const createOrder = async (req, res, next) => {
           id: billingAccountId,
           "@type": "BillingAccount",
         },
-        // note: [
-        //   {
-        //     author: "HazardNotes",
-        //     text: author1,
-        //   },
-        //   {
-        //     author: "HazardNotes",
-        //     text: author2,
-        //   },
-        //   {
-        //     author: "EngineerVisitNotes",
-        //     text: author3,
-        //   },
-        // ],
+        note: [
+          {
+            author: "HazardNotes",
+            text: "This is a TMF product order illustration",
+            "@type": "Note",
+          },
+          {
+            author: "HazardNotes",
+            text: "dangerous dog onsite",
+            "@type": "Note",
+          },
+          {
+            author: "EngineerVisitNotes",
+            text: "No plug on the 3rd floor",
+            "@type": "Note",
+          },
+        ],
+
         productOrderItem: [
           {
+            id: "1",
+            "@type": "ProductOrderItem",
             action: "add",
-            // appointment: {
-            //   id: appointmentId || "",
-            // },
             product: {
+              "@type": "product",
               name: "C-OR-SOGEA",
               place: [
                 {
-                  role: "consumer",
-                  galk: galk || "",
-                  districtCode: districtCode || "",
-                  locality: locality || "",
-                  postcode: postCode || "",
-                  streetName: streetName || "",
-                  streetNr: streetNr || "",
-                  buildingName: buildingName || "",
-                  subUnitNumber: subUnitNumber || "",
+                  role: "installationAddress",
+                  "@type": "place",
+                  place: {
+                    "@type": "PXCGeographicSubAddressUnit",
+                    postcode: postCode,
+                    externalId: [
+                      ...(galk
+                        ? [
+                            {
+                              "@type": "ExternalIdentifier",
+                              externalIdentifierType: "galk",
+                              id: galk,
+                            },
+                          ]
+                        : []),
+                      ...(districtCode
+                        ? [
+                            {
+                              "@type": "ExternalIdentifier",
+                              externalIdentifierType: "districtCode",
+                              id: districtCode,
+                            },
+                          ]
+                        : []),
+                    ],
+                  },
                 },
               ],
               productCharacteristic: [
@@ -1694,36 +1775,43 @@ const createOrder = async (req, res, next) => {
                   name: "provisioningCommand",
                   value: "Switch",
                   valueType: "string",
+                  "@type": "StringCharacteristic",
                 },
                 {
                   name: "productSpeed",
                   value: productSpeed,
                   valueType: "string",
+                  "@type": "StringCharacteristic",
                 },
                 {
                   name: "careLevel",
                   value: "Standard",
                   valueType: "string",
+                  "@type": "StringCharacteristic",
                 },
                 {
                   name: "accessLineId",
                   value: accessLineId,
                   valueType: "string",
+                  "@type": "StringCharacteristic",
                 },
                 {
                   name: "installationType",
                   value: "Self Install",
                   valueType: "string",
+                  "@type": "StringCharacteristic",
                 },
                 {
                   name: "installationContactNamePrimary",
                   value: customerPrimaryName,
                   valueType: "string",
+                  "@type": "StringCharacteristic",
                 },
                 {
                   name: "installationContactNumberPrimary",
                   value: customerPrimaryNumber,
                   valueType: "string",
+                  "@type": "StringCharacteristic",
                 },
                 ...(customerSecondaryName?.trim()
                   ? [
@@ -1731,17 +1819,17 @@ const createOrder = async (req, res, next) => {
                         name: "installationContactNameSecondary",
                         value: customerSecondaryName.trim(),
                         valueType: "string",
+                        "@type": "StringCharacteristic",
                       },
                     ]
                   : []),
-
-                // Conditionally include secondary number
                 ...(customerSecondaryNumber?.trim()
                   ? [
                       {
                         name: "installationContactNumberSecondary",
                         value: customerSecondaryNumber.trim(),
                         valueType: "string",
+                        "@type": "StringCharacteristic",
                       },
                     ]
                   : []),
@@ -1749,46 +1837,76 @@ const createOrder = async (req, res, next) => {
                   name: "installationContactEmail",
                   value: customerEmail,
                   valueType: "string",
+                  "@type": "StringCharacteristic",
                 },
                 {
                   name: "partnerOrderReference",
                   value: customerAKJ,
                   valueType: "string",
-                },
-                {
-                  name: "accessLineId",
-                  value: accessLineId,
-                  valueType: "string",
+                  "@type": "StringCharacteristic",
                 },
                 {
                   name: "ipBlockSize",
                   value: ipBlockSize,
                   valueType: "string",
+                  "@type": "StringCharacteristic",
                 },
                 {
                   name: "domainName",
                   value: "poptelecom.net",
                   valueType: "string",
+                  "@type": "StringCharacteristic",
                 },
                 {
                   name: "numberPortabilityRequired",
-                  value: "No",
+                  value: "Yes",
                   valueType: "string",
+                  "@type": "StringCharacteristic",
                 },
                 {
                   name: "retailerId",
                   value: "FFA",
                   valueType: "string",
+                  "@type": "StringCharacteristic",
                 },
                 {
                   name: "changeOfRetailer",
                   value: "Yes",
                   valueType: "string",
+                  "@type": "StringCharacteristic",
+                },
+                {
+                  name: "portingProcess",
+                  value: "Fixed",
+                  valueType: "string",
+                  "@type": "StringCharacteristic",
+                },
+
+                {
+                  name: "exchangePrefix",
+                  value: "541044",
+                  valueType: "string",
+                  "@type": "StringCharacteristic",
+                },
+
+                {
+                  name: "installationDN",
+                  value: "07999999999",
+                  valueType: "string",
+                  "@type": "StringCharacteristic",
+                },
+
+                {
+                  name: "networkOperatorId",
+                  value: "001",
+                  valueType: "string",
+                  "@type": "StringCharacteristic",
                 },
               ],
             },
           },
         ],
+        "@type": "ProductOrder",
       };
     else if (action == "createProductOrder-SOGEA-Replace")
       body = {
